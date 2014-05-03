@@ -21,10 +21,10 @@ parameters:
   image:
     description: Server Image
     type: string
-    default: Ubuntu 13.10 (Saucy Salamander)
+    default: Ubuntu 14.04 LTS (Trusty Tahr)
     constraints:
     - allowed_values:
-      - Ubuntu 13.10 (Saucy Salamander)
+      - Ubuntu 14.04 LTS (Trusty Tahr)
       description: Must be a supported operating system.
 
   flavor:
