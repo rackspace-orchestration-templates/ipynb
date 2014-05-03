@@ -55,6 +55,11 @@ the `-P` flag to specify a custom parameter.
   none)
 * `ipynb_username`: System user to setup the virtual environment with.
   (Default: ipynb)
+* `kitchen`: URL for the kitchen to clone with git. The Chef Solo run will copy
+  all files in this repo into the kitchen for the chef run. (Default:
+  https://github.com/rackspace-orchestration-templates/ipynb)
+* `chef_version`: Chef client version to install for the chef run.  (Default:
+  11.12.4)
 
 
 Outputs
