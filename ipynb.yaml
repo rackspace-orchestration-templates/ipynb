@@ -66,6 +66,15 @@ parameters:
     - allowed_pattern: "^[A-Za-z0-9.-]{1,64}$"
       description: "Must be alphanumeric and fewer than 64 characters"
 
+  kitchen:
+    description: URL for the kitchen to use
+    type: string
+    default: https://github.com/rackspace-orchestration-templates/ipynb
+
+  chef_version:
+    description: Version of chef client to use
+    type: string
+    default: 11.12.4
 
 resources:
   # Random password generation
@@ -96,34 +105,8 @@ resources:
       username: root
       private_key: { get_attr: [ssh_key, private_key] }
       host: { get_attr: [ipynb_server, accessIPv4] }
-      Berksfile: |
-        #!/usr/bin/env ruby
-        #^syntax detection
-
-        site :opscode
-
-        cookbook 'build-essential'
-        cookbook 'apt'
-        cookbook 'firewall',
-          :git => 'https://github.com/opscode-cookbooks/firewall.git',
-          :ref => 'c40369867a554cce87a09fd9abdced7f6f96dba5'
-        cookbook 'ipynb',
-          :git => 'https://github.com/rgbkrk/ipynb-cookbook',
-          :ref => '6eb0b1c1341662a7099a8f1db279772d038d8328'
-        cookbook 'supervisor',
-          :git => 'https://github.com/opscode-cookbooks/supervisor.git',
-          :ref => 'ffd88b59e3df97613b9ecfd53d489f6715551755'
-        cookbook 'chef-solo-search',
-          :git => 'https://github.com/edelight/chef-solo-search/',
-          :ref => '1f79c1d86e85aa3a2b01e15f90755cf60eb66a4f'
-        cookbook 'python',
-          :git => 'https://github.com/comandrei/python.git',
-          :ref => '2cc384b5d996ca8b701826af265334bda40d0201'
-        cookbook 'rax-firewall',
-          :git => 'https://github.com/brint/rax-firewall-cookbook',
-          :ref => 'deae4c112d7d692302cd83e96df4fbd7c8a6e22b'
-        cookbook 'rax-ipynb-auth',
-          :git => 'https://github.com/brint/rax-ipynb-auth'
+      kitchen: { get_param: kitchen }
+      chef_version: { get_param: chef_version }
       node:
         deployment:
           id: secrets # Tells cookbook the data bag name
