@@ -51,8 +51,6 @@ the `-P` flag to specify a custom parameter.
 * `image`: Operating system to install (Default: Ubuntu 14.04 LTS (Trusty
   Tahr))
 * `flavor`: Cloud server size to use. (Default: 2 GB Performance)
-* `ssh_keypair_name`: Name of the SSH key pair to register with nova (Default:
-  none)
 * `ipynb_username`: System user to setup the virtual environment with.
   (Default: ipynb)
 * `kitchen`: URL for the kitchen to clone with git. The Chef Solo run will copy
