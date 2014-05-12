@@ -1,7 +1,7 @@
 Description
 ===========
 Single Linux server with [IPython Notebook
-1.0](http://ipython.org/notebook.html) installed.
+2.0.0](http://ipython.org/notebook.html) installed.
 
 Requirements
 ============
