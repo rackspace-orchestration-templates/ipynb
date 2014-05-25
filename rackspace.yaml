@@ -4,8 +4,71 @@ application-name: IPython Notebook
 application-version: 2.0.0
 flavor: Single Linux server running IPython Notebook
 flavor-weight: 1
-abstract: |
-  Single Linux server with [IPython Notebook 2.0](http://ipython.org/notebook.html) installed.
 reach-info:
   tattoo: https://0b5294b243620310a700-e388a7f3aba385a925111b1fc6f680d4.ssl.cf2.rackcdn.com/ipython-tattoo.png
   icon-20x20: https://0b5294b243620310a700-e388a7f3aba385a925111b1fc6f680d4.ssl.cf2.rackcdn.com/ipython-icon-20x20.png
+abstract: |
+  Single Linux server with [IPython
+  Notebook 2.0](http://ipython.org/notebook.html) installed.
+instructions: |
+  #### IPython notebook
+
+  This launches an [IPython Notebook](http://ipython.org/notebook.html) server
+  fully configured with scientific packages and inline matplotlib/pylab.
+
+  When the deployment finishes, you can access your deployment by using the IP
+  provided above. Login using the password you specified during deployment.
+  *The certificate will give an error as it is self-signed.*
+
+  #### Packages installed
+
+  By default, the python packages installed include
+
+  * cython
+  * matplotlib
+  * networkx
+  * nltk
+  * numpy
+  * pandas
+  * patsy
+  * pillow
+  * pytables
+  * scikit-image
+  * scikit-learn
+  * scipy
+  * statsmodels
+  * sympy
+  * theano
+  * xlrd
+  * xlwt
+
+  #### Easy mode installation of more packages
+
+  If you want more packages installed, simply pip install them from within the
+  IPython notebook:
+
+  ```python
+  In[1]: !pip install pkg_name
+  ```
+
+  This will install it within the virtualenv that IPython notebook runs in.
+
+  #### Hard mode installation
+
+  Alternatively, you can ssh to the box, change user to ipynb, source the
+  virtualenv (`source ~ipynb/.ipyvirt/bin/activate`) and do a pip install.
+
+  ```bash
+  (.ipyvirt)$ pip install pkg_name
+  ```
+
+  If other system dependencies are needed, you will need to SSH to the box and
+  install the system packages (or ask us for help).
+
+  #### Logging in via SSH
+
+  The private key provided in the passwords section can be used to login as
+  root via SSH.  We have an article on how to use these keys with [Mac OS X and
+  Linux](http://www.rackspace.com/knowledge_center/article/logging-in-with-a-ssh-private-key-on-linuxmac)
+  as well as [Windows using
+  PuTTY](http://www.rackspace.com/knowledge_center/article/logging-in-with-a-ssh-private-key-on-windows).
