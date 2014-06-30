@@ -7,6 +7,7 @@ description: |
 parameters:
 
   server_hostname:
+    label: Server Name
     description: Server Name
     type: string
     default: ipynb
@@ -19,6 +20,7 @@ parameters:
         Must begin with a letter and contain only alphanumeric characters.
 
   image:
+    label: Server Image
     description: Server Image
     type: string
     default: Ubuntu 14.04 LTS (Trusty Tahr)
@@ -28,6 +30,7 @@ parameters:
       description: Must be a supported operating system.
 
   flavor:
+    label: Server Size
     description: Rackspace Cloud Server flavor
     type: string
     default: 2 GB Performance
@@ -51,6 +54,7 @@ parameters:
         selected to deploy into.
 
   ipynb_username:
+    label: Username
     description: |
       Username for the notebook, the password will be randomly generated.
     type: string
@@ -60,11 +64,13 @@ parameters:
       description: "Must be alphanumeric and fewer than 64 characters"
 
   kitchen:
+    label: Kitchen
     description: URL for the kitchen to use
     type: string
     default: https://github.com/rackspace-orchestration-templates/ipynb
 
   chef_version:
+    label: Chef Version
     description: Version of chef client to use
     type: string
     default: 11.12.4
