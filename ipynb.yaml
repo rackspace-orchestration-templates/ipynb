@@ -4,18 +4,27 @@ description: |
   This is a Heat template to deploy a single Linux server running IPython
   Notebook.
 
-  
+
 parameter_groups:
 
 - label: Server Settings
   parameters:
-  - server_hostname
   - image
   - flavor
 
 - label: IPython Settings
   parameters:
   - ipynb_username
+
+- label: rax-dev-params
+  # These are parameters that will not be displayed in the portal. The purpose
+  # of these parameters are for users who are developing or testing newer or
+  # different setups. If any of these parameters are changed, there is a good
+  # chance this stack will fail to properly deploy.
+  parameters:
+  - server_hostname
+  - kitchen
+  - chef_version
 
 parameters:
 
@@ -34,7 +43,7 @@ parameters:
 
   image:
     label: Server Image
-    description: Server Image
+    description: Operating system to use for your server.
     type: string
     default: Ubuntu 14.04 LTS (Trusty Tahr)
     constraints:
@@ -44,7 +53,9 @@ parameters:
 
   flavor:
     label: Server Size
-    description: Rackspace Cloud Server flavor
+    description: |
+      Rackspace Cloud Server flavor to use. The size is based on the amount of
+      RAM for the provisioned server.
     type: string
     default: 2 GB Performance
     constraints:
@@ -86,7 +97,7 @@ parameters:
     label: Chef Version
     description: Version of chef client to use
     type: string
-    default: 11.12.4
+    default: 11.12.8
 
 resources:
   # Random password generation
@@ -150,12 +161,15 @@ resources:
 
 outputs:
   private_key:
+    description: SSH Private Key
     value: { get_attr: [ssh_key, private_key] }
 
   server_ip:
+    description: Server IP
     value: { get_attr: [ipynb_server, accessIPv4] }
 
   ipynb_url:
+    description: IPython URL
     value:
       str_replace:
         template: "https://%server_ip%"
@@ -163,4 +177,5 @@ outputs:
           "%server_ip%": { get_attr: [ipynb_server, accessIPv4] }
 
   ipynb_password:
+    description: IPython Password
     value: { get_attr: [ipynb_password, value] }
