@@ -42,8 +42,10 @@ parameters:
         Must begin with a letter and contain only alphanumeric characters.
 
   image:
-    label: Server Image
-    description: Operating system to use for your server.
+    label: Operating System
+    description: |
+      Server image used for all servers that are created as a part of this
+      deployment
     type: string
     default: Ubuntu 14.04 LTS (Trusty Tahr)
     constraints:
@@ -120,6 +122,8 @@ resources:
       flavor: { get_param: flavor }
       image: { get_param: image }
       key_name: { get_resource: ssh_key }
+      metadata:
+        rax-heat: { get_param: "OS::stack_id" }
 
   ipynb_setup:
     type: "OS::Heat::ChefSolo"
