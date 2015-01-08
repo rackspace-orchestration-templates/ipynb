@@ -2,6 +2,47 @@ runit Cookbook CHANGELOG
 ========================
 This file is used to list changes made in each version of the runit cookbook.
 
+v1.5.12 (2014-12-15)
+--------------------
+* prevent infinite loop inside docker container
+* runit service failing inside docker container
+* move to librarian-chef for kitchen dependency resolution
+* update tests
+* updates to chefspec matchers
+
+v1.5.10 (2014-03-07)
+--------------------
+PR #53- Fix runit RPM file location for Chef provisionless Centos 5.9 Box Image
+
+
+v1.5.9
+------
+Fix runit RPM file location for Chef provisionless Centos 5.9 Box Image
+
+v1.5.8
+------
+Fixing string interpolation bug
+
+
+v1.5.3
+------
+Fixing assignment/compare error
+
+
+v1.5.1
+------
+### Bug
+- **[COOK-3950](https://tickets.opscode.com/browse/COOK-3950)** - runit cookbook should use full service path when checking running status
+
+
+v1.5.0
+------
+### Improvement
+- **[COOK-3267] - Improve testing suite in runit cookbook
+- Updating test-kitchen harness
+- Cleaning up style for rubocop
+
+
 v1.4.4
 ------
 fixing metadata version error. locking to < 3.0
