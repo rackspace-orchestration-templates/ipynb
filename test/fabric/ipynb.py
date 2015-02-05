@@ -1,6 +1,7 @@
 import re
 from fabric.api import env, hide, run, task
 from envassert import detect, file, package, port, process, service
+from hot.utils.test import get_artifacts, http_check
 
 
 def ipynb_is_responding():
@@ -22,3 +23,9 @@ def check():
     assert process.is_up("nginx")
     assert service.is_enabled("nginx")
     assert ipynb_is_responding()
+
+
+@task
+def artifacts():
+    env.platform_family = detect.detect()
+    get_artifacts()
