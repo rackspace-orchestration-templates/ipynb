@@ -1,12 +1,14 @@
 import re
 from fabric.api import env, hide, run, task
-from envassert import detect, file, package, port, process, service
-from hot.utils.test import get_artifacts, http_check
+from envassert import detect, port, process, service
+from hot.utils.test import get_artifacts
 
 
 def ipynb_is_responding():
     with hide('running', 'stdout'):
-        homepage = run("wget --no-check-certificate --quiet --output-document - https://localhost/")
+        wget_command = ("wget --no-check-certificate --quiet "
+                        "--output-document - https://localhost/")
+        homepage = run(wget_command)
         if re.search('IPython Notebook', homepage):
             return True
         else:
