@@ -20,7 +20,7 @@ cookbook 'python',
   :git => 'https://github.com/comandrei/python.git',
   :ref => '2cc384b5d996ca8b701826af265334bda40d0201'
 cookbook 'rax-firewall',
-  :git => 'https://github.com/brint/rax-firewall-cookbook',
+  :git => 'https://github.com/heat-cookbooks/rax-firewall-cookbook',
   :ref => 'deae4c112d7d692302cd83e96df4fbd7c8a6e22b'
 cookbook 'rax-ipynb-auth',
-  :git => 'https://github.com/brint/rax-ipynb-auth'
+  :git => 'https://github.com/heat-cookbooks/rax-ipynb-auth'
