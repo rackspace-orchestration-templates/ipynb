@@ -137,6 +137,8 @@ resources:
       node:
         deployment:
           id: secrets # Tells cookbook the data bag name
+        ipynb:
+          ipython_package: ipython[notebook]==3.2.0
         rax:
           firewall:
             tcp:
