@@ -8,8 +8,8 @@ reach-info:
   tattoo: https://0b5294b243620310a700-e388a7f3aba385a925111b1fc6f680d4.ssl.cf2.rackcdn.com/ipython-tattoo.png
   icon-20x20: https://0b5294b243620310a700-e388a7f3aba385a925111b1fc6f680d4.ssl.cf2.rackcdn.com/ipython-icon-20x20.png
 abstract: |
-  Single Linux server running [IPython Notebook
-  3.2](http://ipython.org/notebook.html).
+  IPython Notebook is an interactive computational environment which provides
+  code execution, graphing and and mathematical functionality.
 instructions: |
   #### IPython notebook
 
