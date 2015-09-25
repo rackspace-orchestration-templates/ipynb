@@ -45,8 +45,9 @@ action :start do
     wait_til_state("RUNNING")
   else
     converge_by("Starting #{ new_resource }") do
-      if not supervisorctl('start')
-        raise "Supervisor service #{new_resource.name} was unable to be started"
+      result = supervisorctl('start')
+      if !result.match(/#{new_resource.name}: started$/)
+        raise "Supervisor service #{new_resource.name} was unable to be started: #{result}"
       end
     end
   end
@@ -63,8 +64,9 @@ action :stop do
     wait_til_state("STOPPED")
   else
     converge_by("Stopping #{ new_resource }") do
-      if not supervisorctl('stop')
-        raise "Supervisor service #{new_resource.name} was unable to be stopped"
+      result = supervisorctl('stop')
+      if !result.match(/#{new_resource.name}: stopped$/)
+        raise "Supervisor service #{new_resource.name} was unable to be stopped: #{result}"
       end
     end
   end
@@ -76,8 +78,9 @@ action :restart do
     raise "Supervisor service #{new_resource.name} cannot be restarted because it does not exist"
   else
     converge_by("Restarting #{ new_resource }") do
-      if not supervisorctl('restart')
-        raise "Supervisor service #{new_resource.name} was unable to be started"
+      result = supervisorctl('restart')
+      if !result.match(/^#{new_resource.name}: started$/)
+        raise "Supervisor service #{new_resource.name} was unable to be started: #{result}"
       end
     end
   end
@@ -98,7 +101,7 @@ def enable_service
     variables :prog => new_resource
     notifies :run, "execute[supervisorctl update]", :immediately
   end
-
+  
   t.run_action(:create)
   if t.updated?
     e.run_action(:run)
@@ -118,29 +121,32 @@ def disable_service
 end
 
 def supervisorctl(action)
-  cmd = "supervisorctl #{action} #{cmd_line_args} | grep -v ERROR"
+  cmd = "supervisorctl #{action} #{cmd_line_args}"
   result = Mixlib::ShellOut.new(cmd).run_command
-  # Since we append grep to the command
-  # The command will have an exit code of 1 upon failure
-  # So 0 here means it was successful
-  result.exitstatus == 0
+  result.stdout.rstrip
 end
 
 def cmd_line_args
   name = new_resource.service_name
-  if new_resource.process_name != '%(program_name)s'
+  if new_resource.numprocs > 1
     name += ':*'
   end
   name
 end
 
 def get_current_state(service_name)
-  result = Mixlib::ShellOut.new("supervisorctl status").run_command
-  match = result.stdout.match("(^#{service_name}(\\:\\S+)?\\s*)([A-Z]+)(.+)")
-  if match.nil?
+  cmd = "supervisorctl status #{service_name}"
+  result = Mixlib::ShellOut.new(cmd).run_command
+  stdout = result.stdout
+  if stdout.include? "No such process #{service_name}"
     "UNAVAILABLE"
   else
-    match[3]
+    match = stdout.match("(^#{service_name}\\s*)([A-Z]+)(.+)")
+    if match.nil?
+      raise "The supervisor service is not running as expected. " \
+              "The command '#{cmd}' output:\n----\n#{stdout}\n----"
+    end
+    match[2]
   end
 end
 
@@ -158,7 +164,7 @@ def wait_til_state(state,max_tries=20)
     Chef::Log.debug("Waiting for service #{service} to be in state #{state}")
     sleep 1
   end
-
+  
   raise "service #{service} not in state #{state} after #{max_tries} tries"
 
 end

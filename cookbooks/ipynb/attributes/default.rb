@@ -19,7 +19,7 @@ default[:ipynb][:home_dir] = nil #File.join("/home/", default[:ipynb][:linux_use
 default[:ipynb][:notebook_dir] = nil #File.join(default[:ipynb][:home_dir],
                                      #      "notebooks")
 
-default[:supervisor][:version] = "3.0"
+#default[:supervisor][:version] = "3.0"
 
 # Supervisord service name
 default[:ipynb][:service_name] = "ipynb"

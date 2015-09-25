@@ -1,9 +1,9 @@
 #
-# Author:: Noah Kantrowitz <noah@opscode.com>
+# Author:: Gilles Devaux <gilles.devaux@gmail.com>
 # Cookbook Name:: supervisor
-# Resource:: service
+# Resource:: fcgi
 #
-# Copyright:: 2011, Opscode, Inc <legal@opscode.com>
+# Copyright:: 2011, Formspring.me
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,10 +18,14 @@
 # limitations under the License.
 #
 
-actions :enable, :disable, :start, :stop, :restart
-default_action :enable
+actions :enable, :disable, :start, :stop, :restart, :reload
 
-attribute :service_name, :kind_of => String, :name_attribute => true
+def initialize(*args)
+  super
+  @action = [:enable, :start]
+end
+
+attribute :program_name, :kind_of => String, :name_attribute => true
 attribute :command, :kind_of => String
 attribute :process_name, :kind_of => String, :default => '%(program_name)s'
 attribute :numprocs, :kind_of => Integer, :default => 1
@@ -34,8 +38,6 @@ attribute :startretries, :kind_of => Integer, :default => 3
 attribute :exitcodes, :kind_of => Array, :default => [0, 2]
 attribute :stopsignal, :kind_of => [String, Symbol], :default => :TERM
 attribute :stopwaitsecs, :kind_of => Integer, :default => 10
-attribute :stopasgroup, :kind_of => [TrueClass,FalseClass], :default => nil
-attribute :killasgroup, :kind_of => [TrueClass,FalseClass], :default => nil
 attribute :user, :kind_of => [String, NilClass], :default => nil
 attribute :redirect_stderr, :kind_of => [TrueClass, FalseClass], :default => false
 attribute :stdout_logfile, :kind_of => String, :default => 'AUTO'
@@ -52,9 +54,6 @@ attribute :environment, :kind_of => Hash, :default => {}
 attribute :directory, :kind_of => [String, NilClass], :default => nil
 attribute :umask, :kind_of => [NilClass, String], :default => nil
 attribute :serverurl, :kind_of => String, :default => 'AUTO'
-
-attribute :eventlistener, :kind_of => [TrueClass,FalseClass], :default => false
-attribute :eventlistener_buffer_size, :kind_of => Integer, :default => nil
-attribute :eventlistener_events, :kind_of => Array, :default => nil
-
-attr_accessor :state
+attribute :socket, :kind_of => String, :required => true
+attribute :socket_owner, :kind_of => String, :default => nil
+attribute :socket_mode, :kind_of => String, :required => '0700'

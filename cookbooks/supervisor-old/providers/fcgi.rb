@@ -1,7 +1,7 @@
 #
 # Author:: Gilles Devaux <gilles.devaux@gmail.com>
 # Cookbook Name:: supervisor
-# Provider:: group
+# Provider:: fcgi
 #
 # Copyright:: 2011, Formspring.me
 #
@@ -24,8 +24,8 @@ action :enable do
     user "root"
   end
 
-  template "#{node['supervisor']['dir']}/#{new_resource.group_name}.conf" do
-    source "group.conf.erb"
+  template "#{node['supervisor']['dir']}/#{new_resource.program_name}.conf" do
+    source "fcgi.conf.erb"
     cookbook "supervisor"
     owner "root"
     group "root"
@@ -41,32 +41,32 @@ action :disable do
     user "root"
   end
 
-  file "#{node['supervisor']['dir']}/#{new_resource.group_name}.conf" do
+  file "#{node['supervisor']['dir']}/#{new_resource.program_name}.conf" do
     action :delete
     notifies :run, "execute[supervisorctl update]", :immediately
   end
 end
 
 action :start do
-  execute "supervisorctl start #{new_resource.group_name}:*" do
+  execute "supervisorctl start #{new_resource.program_name}" do
     user "root"
   end
 end
 
 action :stop do
-  execute "supervisorctl stop #{new_resource.group_name}:*" do
+  execute "supervisorctl stop #{new_resource.program_name}" do
     user "root"
   end
 end
 
 action :restart  do
-  execute "supervisorctl restart #{new_resource.group_name}:*" do
+  execute "supervisorctl restart #{new_resource.program_name}" do
     user "root"
   end
 end
 
 action :reload  do
-  execute "supervisorctl restart #{new_resource.group_name}:*" do
+  execute "supervisorctl restart #{new_resource.program_name}" do
     user "root"
   end
 end
